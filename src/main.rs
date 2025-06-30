@@ -14,7 +14,7 @@ fn view_rustacean(id: i32) -> Value {
     json!({"id": id, "name": "John Doe","email": "John@doe.com" })
 }
 #[post("/rustaceans", format = "json")] // Define uma rota POST para o caminho "/rustaceans"
-fn crate_rustacean() -> Value { // Cria um novo rustacean
+fn create_rustacean() -> Value { // Cria um novo rustacean
     json!({"id": 3, "name": "Sandro Reis", "email": "John@doe.com"})
 } 
 #[put("/rustaceans/<id>", format = "json")] // Rota para atualizar um rustacean existente
@@ -35,12 +35,13 @@ fn not_found() -> Value { // Retorna um JSON indicando que o recurso não foi en
 async fn main() { 
     let _ = rocket::build()// Cria uma nova instância do Rocket
         .mount("/", routes![
-            get_rustaceans, // Monta a rota para obter todos os rustaceans
-            view_rustacean, // Monta a rota para visualizar um rustacean específico
-            crate_rustacean, // Monta a rota para criar um novo rustacean
-            update_rustacean, // Monta a rota para atualizar um rustacean existente
-            delete_rustacean, // Monta a rota para excluir um rustacean
+            get_rustaceans, // Monta a rota para OBTER todos os rustaceans
+            view_rustacean, // Monta a rota para VISUALIZAR um rustacean específico
+            create_rustacean, // Monta a rota para CRIAR um novo rustacean
+            update_rustacean, // Monta a rota para ATUALIZAR um rustacean existente
+            delete_rustacean, // Monta a rota para EXCLUIR um rustacean
         ]) // Monta a rota definida acima
+        .register("/", catchers![not_found]) // Registra o manipulador de erro para 404
         .launch()   // Lança o servidor Rocket
         .await;     // Aguarda o término do lançamento do servidor
 }
