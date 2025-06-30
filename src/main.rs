@@ -25,6 +25,10 @@ fn update_rustacean(id: i32) -> Value { // Atualiza um rustacean existente
 fn delete_rustacean(_id: i32) -> status::NoContent {
     status::NoContent
 }
+#[catch(404)] // Define um manipulador de erro para o código de status 404 
+fn not_found() -> Value { // Retorna um JSON indicando que o recurso não foi encontrado
+    json!({"not found": true}) // Class 7
+}
 
 // #[rocket::main] // Define a função principal como assíncrona e inicializa o Rocket
 #[rocket::main] 
